@@ -21,23 +21,19 @@ class MovesForApparatus(MethodView):
     @blp.response(201, MoveSchema)
     def post(self, move_data, apparatus_id):
         #  check if move in store already has this name
-        # apparatus = ApparatusModel.query.get_or_404(apparatus_id)
-
         move = MoveModel(**move_data, apparatus_id = apparatus_id)
-        # return move
-        # abort(500, message=move_data)
+
         try:
             db.session.add(move)
             db.session.commit()
         except SQLAlchemyError as e:
-            abort(
-                500, message=str(e)
-            )
+            abort(500, message="Error adding move to apparatus")
         
         return move
 
 @blp.route("/routine/<string:routine_id>/move/<string:move_id>")
 class LinkMovesToRoutine(MethodView):
+    @blp.response(200, RoutineAndMoveSchema)
     def post(self, routine_id, move_id):
         routine = RoutineModel.query.get_or_404(routine_id)
         move = MoveModel.query.get_or_404(move_id)
@@ -48,6 +44,8 @@ class LinkMovesToRoutine(MethodView):
             db.session.commit()
         except SQLAlchemyError:
             abort(500, message="An error occured while inserting the move to the routine.")
+        
+        return {"message":"Move added to routine", "routine": routine, "move": move}
 
     @blp.response(200, RoutineAndMoveSchema)
     def delete(self, routine_id, move_id):
