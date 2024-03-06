@@ -8,7 +8,8 @@ from db import db
 import models
 
 from resources.apparatus import blp as ApparatusBlueprint
-# from resources.move import blp as MoveBlueprint
+from resources.routine import blp as RoutineBlueprint
+from resources.move import blp as MoveBlueprint
 # from resources.type import blp as TypeBlueprint
 
 def create_app(db_url=None):
@@ -32,7 +33,8 @@ def create_app(db_url=None):
         db.create_all()
 
     api.register_blueprint(ApparatusBlueprint)
+    api.register_blueprint(RoutineBlueprint)
     # api.register_blueprint(TypeBlueprint)
-    # api.register_blueprint(MoveBlueprint)
+    api.register_blueprint(MoveBlueprint)
 
     return app

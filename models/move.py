@@ -5,7 +5,8 @@ class MoveModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False )
-    # apparatus_id = db.Column(db.Integer, db.ForeignKey("apparatuses.id"), unique=False, nullable=False)
+    apparatus_id = db.Column(db.Integer, db.ForeignKey("apparatuses.id"), unique=False, nullable=False)
 
     # relationship to apparatus
-    # apparatus = db.relationship("ApparatusModel", back_populates="apparatuses")
+    apparatus = db.relationship("ApparatusModel", back_populates="moves")
+    # routines = db.relationship("RoutineModel", back_populates="routines", secondary="routine_moves")

@@ -13,7 +13,9 @@ class ApparatusModel(db.Model):
     # Because the TypeModel says it's connected to the types table
     #  back_populates means that type.py will have an types relationship
     # types = db.relationship("TypeModel", back_populates="types")
+    
+    routines = db.relationship("RoutineModel", back_populates="apparatus")
 
 
     # Duplicate for Moves - need to double check the one - many, many - many config requirements
-    # moves = db.relationship("MoveModel", back_populates="moves",  lazy="dynamic", cascade="all, delete")
+    moves = db.relationship("MoveModel", back_populates="apparatus",  lazy="dynamic", cascade="all, delete")

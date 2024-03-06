@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
 from models import ApparatusModel
-from schemas import ApparatusSchema
+from schemas import ApparatusSchema, ApparatusUpdateSchema
 
 blp = Blueprint("Apparatuses", __name__, description="Operations on apparatuses")
 
@@ -24,18 +24,18 @@ class apparatus(MethodView):
     
     # TODO: add functionality to update apparatus
     # order is important, we want the response to be deeper set than the arguments
-    # @blp.arguments(ItemUpdateSchema)
-    # @blp.response(200, ApparatusSchema)
-    # def put(self, appr_data, appr_id):
-    #     item = ApparatusModel.query.get(appr_id)
-    #     # Try to get an item to update
-    #     # If item not found, create it
-    #     # put requests are expected to operate this way
-    #     if item:
-    #         item.price = appr_data["price"]
-    #         item.name = appr_data["name"]
-    #     else:
-    #         item = ApparatusModel(id=appr_id, **appr_data) # make sure to use the ID from the url and not generate one
+    @blp.arguments(ApparatusUpdateSchema)
+    @blp.response(200, ApparatusSchema)
+    def put(self, appr_data, appr_id):
+        item = ApparatusModel.query.get(appr_id)
+        # Try to get an item to update
+        # If item not found, create it
+        # put requests are expected to operate this way
+        if item:
+            item.price = appr_data["price"]
+            item.name = appr_data["name"]
+        else:
+            item = ApparatusModel(id=appr_id, **appr_data) # make sure to use the ID from the url and not generate one
     #     raise NotImplementedError("Deleting an item is not implemented.")
 
 @blp.route("/apparatus")
