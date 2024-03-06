@@ -10,7 +10,7 @@ blp = Blueprint("moves", __name__, description="Operations on moves")
 
 # Get or Create Apparatus Move
 @blp.route("/apparatus/<string:apparatus_id>/move")
-class MovesForApparatus(MethodView):
+class AddMovesForApparatus(MethodView):
     @blp.response(200, MoveSchema(many=True))
     def get(self, apparatus_id):
         apparatus = ApparatusModel.query.get_or_404(apparatus_id)
@@ -26,10 +26,34 @@ class MovesForApparatus(MethodView):
         try:
             db.session.add(move)
             db.session.commit()
-        except SQLAlchemyError as e:
+        except SQLAlchemyError:
             abort(500, message="Error adding move to apparatus")
         
         return move
+    
+@blp.route("/apparatus/<string:apparatus_id>/move/<string:move_id>")
+class MovesForApparatus(MethodView):
+    @blp.response(200, MoveSchema)
+    def get(self, move_id, apparatus_id):
+        move = MoveModel.query.get_or_404(move_id)
+        return move
+
+    # @blp.response(200, ApparatusModel)
+    def delete(self, apparatus_id, move_id):
+        apparatus = ApparatusModel.query.get_or_404(apparatus_id)
+        move = MoveModel.query.get_or_404(move_id)
+
+        apparatus.moves.remove(move)
+
+        try:
+            db.session.add(apparatus)
+            db.session.delete(move)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            abort(500, message=e)
+            # abort(500, message="An error occured while removing the move from the apparatus")
+
+        return {"message":"Move removed from Apparatus", "apparatus": apparatus.name}
 
 @blp.route("/routine/<string:routine_id>/move/<string:move_id>")
 class LinkMovesToRoutine(MethodView):
@@ -68,54 +92,11 @@ class move(MethodView):
     def get(self, move_id):
         move = MoveModel.query.get_or_404(move_id)
         return move
-    
-
-    def delete(self, move_id):
-        move = MoveModel.query.get_or_404(move_id)
-        db.session.delete(move)
-        db.session.commit()
-        return {"message":"move deleted"}
-    
-    # TODO: add functionality to update move
-    # order is important, we want the response to be deeper set than the arguments
-    @blp.arguments(MoveUpdateSchema)
-    @blp.response(200, MoveSchema)
-    def put(self, move_data, move_id):
-        move = MoveModel.query.get(move_id)
-
-        # Try to get an routine to update
-        # If routine not found, create it
-        # put requests are expected to operate this way
-        if move:
-            move.name = move_data["name"]
-        else:
-            move = MoveModel(id=move_id, **move_data) # make sure to use the ID from the url and not generate one
-        # raise NotImplementedError("Deleting an routine is not implemented.")
-            
-        try:
-            db.session.add(move)
-            db.session.commit()
-        except SQLAlchemyError:
-            abort(500, message="An error occured while saving the move")
-        
-        return move, 201
 
 @blp.route("/move")
 class MoveList(MethodView):
     @blp.response(200, MoveSchema(many=True))
     def get(self):
         return MoveModel.query.all()
-    
-    # @blp.arguments(MoveSchema)
-    # @blp.response(201, MoveSchema)
-    # def post(self, appr_data):
-    #     move = MoveModel(**appr_data)
 
-    #     try:
-    #         db.session.add(move)
-    #         db.session.commit()
-    #     except SQLAlchemyError:
-    #         abort(500, message="An error occured while inserting the move")
-        
-    #     return move, 201
     
