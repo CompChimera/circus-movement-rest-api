@@ -11,6 +11,7 @@ from resources.apparatus import blp as ApparatusBlueprint
 from resources.routine import blp as RoutineBlueprint
 from resources.move import blp as MoveBlueprint
 # from resources.type import blp as TypeBlueprint
+# TODO: Types
 
 def create_app(db_url=None):
     app = Flask(__name__)

@@ -11,7 +11,7 @@ Eventually app should have a default so new to circus users can jump in. V1 will
 ### Apparatuses
 These are the pieces of equipment that aerial acrobatics perform their moves (or tricks) on. 
 
-### Type
+### Type - Not Yet Implemented
 A piece of info to categorize the apparatuses. They are considered Soft Apparatuses (Ex. Silks, Rope, Straps, ect) or Hard Apparatuses (Ex. Trapeze, Lyra, Cubes).
 And to categories further, some of these equipment can be rigged using a single point, or double point, or other configurations that make it a distinctly different experience with different moves available. 
 

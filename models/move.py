@@ -7,6 +7,5 @@ class MoveModel(db.Model):
     name = db.Column(db.String(80), nullable=False )
     apparatus_id = db.Column(db.Integer, db.ForeignKey("apparatuses.id"), unique=False, nullable=False)
 
-    # relationship to apparatus
     apparatus = db.relationship("ApparatusModel", back_populates="moves")
     routine = db.relationship("RoutineModel", back_populates="moves", secondary="routine_moves")

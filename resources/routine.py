@@ -22,21 +22,15 @@ class routine(MethodView):
         db.session.commit()
         return {"message":"routine deleted"}
     
-    # TODO: add functionality to update routine
-    # order is important, we want the response to be deeper set than the arguments
     @blp.arguments(RoutineUpdateSchema)
     @blp.response(200, RoutineSchema)
     def put(self, routine_data, routine_id):
         routine = RoutineModel.query.get(routine_id)
 
-        # Try to get an item to update
-        # If item not found, create it
-        # put requests are expected to operate this way
         if routine:
             routine.name = routine_data["name"]
         else:
-            routine = RoutineModel(id=routine_id, **routine_data) # make sure to use the ID from the url and not generate one
-        # raise NotImplementedError("Deleting an item is not implemented.")
+            routine = RoutineModel(id=routine_id, **routine_data) 
             
         try:
             db.session.add(routine)

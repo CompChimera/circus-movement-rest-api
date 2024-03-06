@@ -15,7 +15,6 @@ class apparatus(MethodView):
         apparatus = ApparatusModel.query.get_or_404(appr_id)
         return apparatus
     
-
     def delete(self, appr_id):
         apparatus = ApparatusModel.query.get_or_404(appr_id)
         db.session.delete(apparatus)
@@ -23,20 +22,19 @@ class apparatus(MethodView):
         return {"message":"apparatus deleted"}
     
     # TODO: add functionality to update apparatus
-    # order is important, we want the response to be deeper set than the arguments
     @blp.arguments(ApparatusUpdateSchema)
     @blp.response(200, ApparatusSchema)
     def put(self, appr_data, appr_id):
-        item = ApparatusModel.query.get(appr_id)
+        apparatus = ApparatusModel.query.get(appr_id)
         # Try to get an item to update
         # If item not found, create it
-        # put requests are expected to operate this way
-        if item:
-            item.price = appr_data["price"]
-            item.name = appr_data["name"]
-        else:
-            item = ApparatusModel(id=appr_id, **appr_data) # make sure to use the ID from the url and not generate one
-    #     raise NotImplementedError("Deleting an item is not implemented.")
+
+        # if item:
+        #     item.price = appr_data["price"]
+        #     item.name = appr_data["name"]
+        # else:
+        #     item = ApparatusModel(id=appr_id, **appr_data) # make sure to use the ID from the url and not generate one
+        raise NotImplementedError("Updating an apparatus is not implemented yet.")
 
 @blp.route("/apparatus")
 class ApparatusList(MethodView):
