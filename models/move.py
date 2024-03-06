@@ -9,4 +9,4 @@ class MoveModel(db.Model):
 
     # relationship to apparatus
     apparatus = db.relationship("ApparatusModel", back_populates="moves")
-    # routines = db.relationship("RoutineModel", back_populates="routines", secondary="routine_moves")
+    routine = db.relationship("RoutineModel", back_populates="moves", secondary="routine_moves")

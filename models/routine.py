@@ -14,4 +14,4 @@ class RoutineModel(db.Model):
     apparatus = db.relationship("ApparatusModel", back_populates="routines")
 
     # relationship to moves - list where order in important. Similar to items <> tags?
-    # moves = db.relationship("MoveModel", back_populates="moves", secondary="routine_moves")
+    moves = db.relationship("MoveModel", back_populates="routine", secondary="routine_moves")

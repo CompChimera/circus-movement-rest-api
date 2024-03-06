@@ -26,13 +26,12 @@ class ApparatusSchema(PlainApparatusSchema):
     routines = fields.List(fields.Nested(PlainRoutineSchema()), dump_only=True)
     moves = fields.List(fields.Nested(PlainMoveSchema), dump_only=True)
     # type 
-    # moves
 
 class ApparatusUpdateSchema(Schema):
     name = fields.Str()
 
 class RoutineSchema(PlainRoutineSchema):
-    apparatus_id = fields.Int(required=True, load_only=True)
+    apparatus_id = fields.Int(load_only=True)
     apparatus = fields.Nested(PlainApparatusSchema(), dump_only=True)
     moves = fields.List(fields.Nested(PlainMoveSchema()), dump_only=True)
 
@@ -44,10 +43,16 @@ class RoutineUpdateSchema(Schema):
     # relationship to apparatus should be like tags in course example
 
 class MoveSchema(PlainMoveSchema):
-    apparatus_id = fields.Int(required=True, load_only=True)
+    apparatus_id = fields.Int(load_only=True)
     apparatus = fields.Nested(PlainApparatusSchema(), dump_only=True)
-    # routines = fields.List(fields.Nested(PlainRoutineSchema), dump_only=True)
+    routine = fields.List(fields.Nested(PlainRoutineSchema), dump_only=True)
 
 class MoveUpdateSchema(Schema):
     name = fields.Str()
+
+class RoutineAndMoveSchema(Schema):
+    routine = fields.Nested(RoutineSchema)
+    message = fields.Str(),
+    move = fields.Nested(MoveSchema)
+
     
