@@ -8,7 +8,7 @@ from schemas import MoveSchema, MoveUpdateSchema, RoutineAndMoveSchema
 
 blp = Blueprint("moves", __name__, description="Operations on moves")
 
-@blp.route("/apparatus/<string:apparatus_id>/move")
+@blp.route("/apparatus/<int:apparatus_id>/move")
 class AddMovesForApparatus(MethodView):
     @blp.response(200, MoveSchema(many=True))
     def get(self, apparatus_id):
@@ -30,7 +30,7 @@ class AddMovesForApparatus(MethodView):
         
         return move
     
-@blp.route("/apparatus/<string:apparatus_id>/move/<string:move_id>")
+@blp.route("/apparatus/<int:apparatus_id>/move/<int:move_id>")
 class MovesForApparatus(MethodView):
     @blp.response(200, MoveSchema)
     def get(self, move_id, apparatus_id):
@@ -63,7 +63,7 @@ class MovesForApparatus(MethodView):
             move = MoveModel(id=move_id, **move_data) 
         raise NotImplementedError("Updating an apparatus move is not yet implemented.")
 
-@blp.route("/routine/<string:routine_id>/move/<string:move_id>")
+@blp.route("/routine/<int:routine_id>/move/<int:move_id>")
 class LinkMovesToRoutine(MethodView):
     @blp.response(200, RoutineAndMoveSchema)
     def post(self, routine_id, move_id):
@@ -94,7 +94,7 @@ class LinkMovesToRoutine(MethodView):
         
         return {"message":"routine removed from move", "routine": routine, "move":move}
 
-@blp.route("/move/<string:move_id>")
+@blp.route("/move/<int:move_id>")
 class move(MethodView):
     @blp.response(200, MoveSchema)
     def get(self, move_id):

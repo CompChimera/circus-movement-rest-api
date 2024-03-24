@@ -8,7 +8,7 @@ from schemas import RoutineSchema, RoutineUpdateSchema
 
 blp = Blueprint("routines", __name__, description="Operations on routines")
 
-@blp.route("/routine/<string:routine_id>")
+@blp.route("/routine/<int:routine_id>")
 class routine(MethodView):
     @blp.response(200, RoutineSchema)
     def get(self, routine_id):

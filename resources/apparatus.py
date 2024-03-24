@@ -8,7 +8,7 @@ from schemas import ApparatusSchema, ApparatusUpdateSchema
 
 blp = Blueprint("Apparatuses", __name__, description="Operations on apparatuses")
 
-@blp.route("/apparatus/<string:appr_id>")
+@blp.route("/apparatus/<int:appr_id>")
 class apparatus(MethodView):
     @blp.response(200, ApparatusSchema)
     def get(self, appr_id):
