@@ -44,11 +44,18 @@ Then we're ready to connect to Docker!
 
 
 ## Using docker locally
-Ensure Docker Desktop is installed. 
+Ensure (Docker Desktop)[https://www.docker.com/products/docker-desktop/] is installed. 
 
-We also need to run these two commands each time we add new dependencies to install
-To setup the container `docker build -t circus-api .`
+### Windows
+bat files have been created to make terminal commands a bit easier. 
+In _command prompt_ run `build.bat` to build the image after adding new dependencies
+Use `run.bat` to mount the folder and use a volume
 
 
-To mount the folder on Windows and use a volume:
-`docker run -dp 5000:5000 -w /app -v %cd%:/app circus-api `
+## Local DB
+Flask Migrate
+Create the migration file to make required DB changes
+`flask db migrate`
+
+To actually run the changes in the DB 
+`flask db upgrade`
