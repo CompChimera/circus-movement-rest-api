@@ -1,5 +1,6 @@
 from flask.views import MethodView
-from flask_smorest import Blueprint, abort
+from flask_smorest import Blueprint
+from flask_jwt_extended import jwt_required
 from sqlalchemy.exc import SQLAlchemyError
 
 from db import db
@@ -11,17 +12,19 @@ blp = Blueprint("routines", __name__, description="Operations on routines")
 @blp.route("/routine/<int:routine_id>")
 class routine(MethodView):
     @blp.response(200, RoutineSchema)
+    @jwt_required()
     def get(self, routine_id):
         routine = RoutineModel.query.get_or_404(routine_id)
         return routine
     
-
+    @jwt_required()
     def delete(self, routine_id):
         routine = RoutineModel.query.get_or_404(routine_id)
         db.session.delete(routine)
         db.session.commit()
         return {"message":"routine deleted"}
     
+    @jwt_required()
     @blp.arguments(RoutineUpdateSchema)
     @blp.response(200, RoutineSchema)
     def put(self, routine_data, routine_id):
@@ -42,10 +45,12 @@ class routine(MethodView):
 
 @blp.route("/routine")
 class RoutineList(MethodView):
+    @jwt_required(fresh=True)
     @blp.response(200, RoutineSchema(many=True))
     def get(self):
         return RoutineModel.query.all()
     
+    @jwt_required()
     @blp.arguments(RoutineSchema)
     @blp.response(201, RoutineSchema)
     def post(self, appr_data):

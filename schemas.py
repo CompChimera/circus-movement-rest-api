@@ -48,3 +48,8 @@ class RoutineAndMoveSchema(Schema):
 #     id = fields.Int(dump_only=True)
 #     name = fields.Str(required=True)
 # class TypeSchema(PlainTypeSchema):
+
+class UserSchema(Schema):
+    id = fields.Int(dump_only=True)
+    username = fields.Str(require=True)
+    password = fields.Str(require=True, load_only=True)
