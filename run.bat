@@ -1,1 +1,1 @@
-docker run -dp 5000:5000 -w /app -v %cd%:/app circus-api 
+docker run -dp 5000:5000 -w /app -v %cd%:/app circus-api sh -c "flask run --host 0.0.0.0"
