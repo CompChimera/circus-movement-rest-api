@@ -1,6 +1,7 @@
 # circus-movement-rest-api
 API for Circus movement information and routine builder app
 
+Live for testing at: https://circus-routine-rest-api.onrender.com
 
 # Purpose
 To connect moves to different types of aerial apparatuses. Each apparatus will also have various types that are important distinctions. 
@@ -8,12 +9,13 @@ Gives flexibility to add apparatuses how the user wants. The aerial circus world
 Eventually app should have a default so new to circus users can jump in. V1 will be completely custom. 
 
 ## Key Information involved:
+
+## Endpoint Information
+https://circus-routine-rest-api.onrender.com/swagger-ui
+
+
 ### Apparatuses
 These are the pieces of equipment that aerial acrobatics perform their moves (or tricks) on. 
-
-### Type - Not Yet Implemented
-A piece of info to categorize the apparatuses. They are considered Soft Apparatuses (Ex. Silks, Rope, Straps, ect) or Hard Apparatuses (Ex. Trapeze, Lyra, Cubes).
-And to categories further, some of these equipment can be rigged using a single point, or double point, or other configurations that make it a distinctly different experience with different moves available. 
 
 ### Moves
 A movement or trick that can be done on a corresponding apparatus. How these are executed can be effect by the type. 
@@ -21,6 +23,9 @@ A movement or trick that can be done on a corresponding apparatus. How these are
 ## Later Development
 Incorporate routines to allow users to build performances by selecting an apparatus and browsing related moves. 
 
+### Type - Not Yet Implemented
+A piece of info to categorize the apparatuses. They are considered Soft Apparatuses (Ex. Silks, Rope, Straps, ect) or Hard Apparatuses (Ex. Trapeze, Lyra, Cubes).
+And to categories further, some of these equipment can be rigged using a single point, or double point, or other configurations that make it a distinctly different experience with different moves available. 
 
 # Setup
 First we setup the virutal environment
@@ -42,7 +47,6 @@ Install the dependencies
 
 Then we're ready to connect to Docker!
 
-
 ## Using docker locally
 Ensure (Docker Desktop)[https://www.docker.com/products/docker-desktop/] is installed. 
 
@@ -59,3 +63,7 @@ Create the migration file to make required DB changes
 
 To actually run the changes in the DB 
 `flask db upgrade`
+
+## Thirdparty Sources
+elephantsql.com - created Postgres DB for development and production
+render.com - where live API is hosted
